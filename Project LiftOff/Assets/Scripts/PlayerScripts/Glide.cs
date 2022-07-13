@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Glide : MonoBehaviour
 {
-    [SerializeField] private float glidingSpeed;
+    [SerializeField] private float glidingGravity;
     private float _initialGravityScale;
     private Rigidbody2D _ridgidbody;
     
@@ -30,7 +30,7 @@ public class Glide : MonoBehaviour
         if (glidingInput && _ridgidbody.velocity.y <= 0)
         {
             _ridgidbody.gravityScale = 0;
-            _ridgidbody.velocity = new Vector2(_ridgidbody.velocity.x, -glidingSpeed);
+            _ridgidbody.velocity = new Vector2(_ridgidbody.velocity.x, -glidingGravity);
         }
         else    //if not gliding the gravity of the player is normal 
         {

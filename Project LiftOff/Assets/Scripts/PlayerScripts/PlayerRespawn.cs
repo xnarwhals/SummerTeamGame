@@ -5,7 +5,7 @@ using UnityEngine;
 //
 public class PlayerRespawn : MonoBehaviour
 {
-    [SerializeField] private AudioClip checkpointSound; //plays when hitting checkpoint
+    //[SerializeField] private AudioClip checkpointSound; //plays when hitting checkpoint
     private Transform currentCheckpoint; //storage of what the last checkpoint is 
     private Health playerHealth; 
 
@@ -22,7 +22,7 @@ public class PlayerRespawn : MonoBehaviour
         playerHealth.Respawn(); //Restore player health and reset animation 
 
         //move camera to checkpoint room(for this to work checkpoint object has to be placed as a child of the room object )
-        Camera.main.GetComponent<CameraController>().MoveToNewRoom(currentCheckpoint.parent);
+        //Camera.main.GetComponent<CameraController>().MoveToNewRoom(currentCheckpoint.parent);
     
     }
 
@@ -31,11 +31,11 @@ private void OnTriggerEnter2D(Collider2D collision)
 {
     if(collision.transform.tag == "Checkpoint")
     {
-        currentCheckpoint = collision.transform; //store the checkpint you touched as the current one 
-        SoundManager.instance.PlaySound(checkpointSound);
+        currentCheckpoint = collision.transform; //store the checkpoint you touched as the current one 
+        //SoundManager.instance.PlaySound(checkpointSound);
         collision.GetComponent<Collider2D>().enabled = false;//Deactivate checkpoint collider so it cant be triggered by player again
         //Collider2D class encompasses all 2d collider as opposed to the Collider class
-        collision.GetComponent<Animator>().SetTrigger("appear");//trigger checkpoint animation
+        //collision.GetComponent<Animator>().SetTrigger("appear");//trigger checkpoint animation
     }
 }
 }

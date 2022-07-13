@@ -27,11 +27,6 @@ public class Movement : MonoBehaviour
     [Header("WallClimb")]
     [SerializeField] private float wallclimbSpeed;
 
-    [Header("Respawn")]
-    public GameObject Enemy;
-    private Vector3 respawnPoint;
-    
-
 
     //refrences
     private Rigidbody2D body;
@@ -42,7 +37,6 @@ public class Movement : MonoBehaviour
     {    
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-        respawnPoint = transform.position;
     }
 
     private void Update()
@@ -108,19 +102,7 @@ public class Movement : MonoBehaviour
              }  
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Enemy")
-        {
-            //freeze player movement
-            
-            //wait 2 seconds
-            //play death animation
-            //play death noise
-            transform.position = respawnPoint;
-        }
 
-    }
 
     private void WallClimb()
     {
