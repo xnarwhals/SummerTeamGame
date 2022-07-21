@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - Ground
   - Checkpoint
+  - SpeedItem
+  - ExtraJumpItem
+  - JumpForceItem
   layers:
   - Default
   - TransparentFX

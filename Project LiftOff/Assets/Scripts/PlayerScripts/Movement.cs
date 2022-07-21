@@ -11,11 +11,14 @@ public class Movement : MonoBehaviour
 
     [Header("Movement Parameters")]
     [SerializeField] private float speed;
+    [SerializeField] private float speedItemValue;
     [SerializeField] private float jumpPower; 
+    [SerializeField] private float jumpPowerItemValue;
     private bool isFacingRight;
 
     [Header("Multiple Jumps")]
     [SerializeField] private int extraJumps;
+    [SerializeField] private int extraJumpItemValue;
     private int jumpCounter;
 
     [Header("Layers")]
@@ -33,14 +36,15 @@ public class Movement : MonoBehaviour
     RaycastHit2D WallCheckHit;
     float jumpTime;
 
-
     //refrences
     private Rigidbody2D body;
     private BoxCollider2D boxCollider;
     private float horizontalInput;
+    private Animator anim;
 
     private void Awake()
     {    
+        anim = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
     }
@@ -51,8 +55,17 @@ public class Movement : MonoBehaviour
         
         horizontalInput = Input.GetAxis("Horizontal");//gets the A or D key press
 
-        body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
-        body.gravityScale = 1.5f;
+        if (horizontalInput != 0)
+        {
+            body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+            anim.SetBool("Running", true);
+        }
+        else
+        {
+            anim.SetBool("Running", false);
+        }
+        
+        body.gravityScale = 3f;
         //^careful with this because gravity will always be set to 1.5 even if I try 
         //to change the gravity in game it will be set back to 1.5
        
@@ -70,7 +83,10 @@ public class Movement : MonoBehaviour
 
         //Jump
         if (Input.GetKeyDown(KeyCode.Q))
+           {
             Jump();
+            anim.SetBool("Jump", false);
+           } 
         
         //Adjustable jump height
         if (Input.GetKeyUp(KeyCode.Q) && body.velocity.y > 0)
@@ -122,18 +138,41 @@ public class Movement : MonoBehaviour
     {
         //dont forget animation
         SoundManager.instance.PlaySound(jumpSound); //play jump sound
+        anim.SetBool("Jump", true);
         
-        if (isGrounded() || isWallSliding && Input.GetKeyDown(KeyCode.Q))
-            body.velocity = new Vector2(body.velocity.x, jumpPower);//physical jump
+
+        if (isGrounded() || isWallSliding && Input.GetKeyDown(KeyCode.Q))//check wall jump first
+                body.velocity = new Vector2(body.velocity.x, jumpPower);//physical jump      
         else
         {
             if (jumpCounter > 0) //If we have extra jumps then jump and decrease the jump counter
             {
                 body.velocity = new Vector2(body.velocity.x, jumpPower);
-                jumpCounter--;
+                jumpCounter--; 
             }
-        }    
-    }        
+        } 
+        anim.SetBool("JumpFall", true);
+    }    
+
+    // far from efficent but its a way I found working
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.gameObject.CompareTag("SpeedItem"))
+        {
+            Destroy(coll.gameObject);
+            speed = speedItemValue;  
+        }
+        else if (coll.gameObject.CompareTag("ExtraJumpItem"))
+        {
+            Destroy(coll.gameObject);
+            extraJumps = extraJumpItemValue;
+        }
+        else if (coll.gameObject.CompareTag("JumpForceItem"))
+        {
+            Destroy(coll.gameObject);
+            jumpPower = jumpPowerItemValue;
+        } 
+    }      
     
 
     private bool isGrounded()//casts a ray to see if the player is touching ground false or true 

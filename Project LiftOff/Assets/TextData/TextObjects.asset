@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: TextObjects
   m_EditorClassIdentifier: 
   text:
-  - Hello Player!
-  - 'Do you have what I desire?
-
-'
+  - Greetings Player!
+  - I Beg of You .  .  .  Deliver This Medicine to My Sick Grandma
   responses:
   - responseText: Yes
     textObject: {fileID: 11400000, guid: e9392e3ada6ce21439aaa88361947077, type: 2}
