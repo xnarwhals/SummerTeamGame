@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+
     [Header("TextUI")]
     [SerializeField] private TextUI textUI;
     public TextUI TextUI => textUI;
@@ -15,7 +16,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private float jumpPower; 
     [SerializeField] private float jumpPowerItemValue;
     private bool isFacingRight;
-
+    
     [Header("Multiple Jumps")]
     [SerializeField] private int extraJumps;
     [SerializeField] private int extraJumpItemValue;
@@ -36,6 +37,15 @@ public class Movement : MonoBehaviour
     RaycastHit2D WallCheckHit;
     float jumpTime;
 
+    [Header("Dash")]
+    [SerializeField] private float dashDistance;//adjustable distance
+    private bool isDashing; //how do we know we are dashing 
+    // private float dashCooldown = 1f;
+
+    [Header("CoyoteTime")]
+    [SerializeField] private float hangTime;
+    private float hangCounter = 0;
+
     //refrences
     private Rigidbody2D body;
     private BoxCollider2D boxCollider;
@@ -52,24 +62,28 @@ public class Movement : MonoBehaviour
     private void Update()
     {
         if (textUI.IsOpen) return; // stop player movement when active
-        
+    
+//Horizontal Movement Section
         horizontalInput = Input.GetAxis("Horizontal");//gets the A or D key press
 
-        if (horizontalInput != 0)
+    // (!isDashing) remeber this
+        if (horizontalInput != 0 && (!isDashing))
         {
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
             anim.SetBool("Running", true);
         }
         else
         {
+            body.velocity = new Vector2(horizontalInput * 0, body.velocity.y);
             anim.SetBool("Running", false);
         }
         
         body.gravityScale = 3f;
-        //^careful with this because gravity will always be set to 1.5 even if I try 
-        //to change the gravity in game it will be set back to 1.5
+        //^careful with this because gravity will always be set to 3 even if I try 
+        //to change the gravity in game it will be set back to 3
+
        
-        //Flip the player -x/x depending on key press good for when we have a character
+//Flip the player -x/x depending on key press (A or D)
         if (horizontalInput > 0.01f)
         {
             transform.localScale = Vector3.one;
@@ -81,21 +95,48 @@ public class Movement : MonoBehaviour
             isFacingRight = false;
         }  
 
-        //Jump
-        if (Input.GetKeyDown(KeyCode.Q))
+//When on ground reset extra jumps and check coyote time
+        if (isGrounded())
+        {
+            anim.SetBool("isJumping", false);
+            jumpCounter = extraJumps;  
+            hangCounter = hangTime;
+            //hang counter = 0.4f
+        }
+        else
+        {
+            anim.SetBool("isJumping", true);
+            hangCounter -= Time.deltaTime;
+            //if not on ground start reducing hang counter (0.4f)
+        }
+
+//Jump Section
+        if (Input.GetButtonDown("Jump"))
            {
             Jump();
-            anim.SetBool("Jump", false);
            } 
-        
-        //Adjustable jump height
-        if (Input.GetKeyUp(KeyCode.Q) && body.velocity.y > 0)
-            body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);    
-        
-        //Wall Jump and Slide Section
-        if (isGrounded())
-            jumpCounter = extraJumps;           
+//Adjustable jump height
+        if (Input.GetButtonUp("Jump") && body.velocity.y > 0)
+            body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);   
 
+//Dash Section
+
+//left Dash
+    if (Input.GetAxis("DashLeft") == 1) {
+            transform.localScale = new Vector3(-1, 1, 1);
+            StartCoroutine(Dash(-1f)); 
+        }
+    
+
+//Right Dash
+    if (Input.GetAxis("DashRight") == 1) { 
+            transform.localScale = Vector3.one;
+            StartCoroutine(Dash(1f)); 
+        }
+    
+
+          
+//Wall Jump and Slide Section
         if (isFacingRight)
         {   //check the player position (parameter 1) second parameter is casting the Raycast towards right wall
             WallCheckHit = Physics2D.Raycast(transform.position, new Vector2(wallDistance, 0), wallDistance, wallLayer);
@@ -125,24 +166,40 @@ public class Movement : MonoBehaviour
             //parameter 2 is clamp (y position) that takes players y position, speed of sliding down (min), and a max value
         }        
         
-        //for interactions with npc
-        if (Input.GetKeyDown(KeyCode.E))
+//For Interactions With Npc Dialouge
+        if (Input.GetButton("Interact"))
         {
             Interactable?.Interact(this);
         }
     }
-        //Enemy.transform.position = new Vector2(transform.position.x, Enemy.transform.position.y); 
-        //^^^possible code if I want collider to follow player on x axis 
+    
+//Dash Function
+    IEnumerator Dash (float direction)
+    {
+        isDashing = true;
+        body.velocity = new Vector2(body.velocity.x, 0f); //no vertical movement or gravity 
+        body.AddForce(new Vector2(dashDistance * direction, 0f), ForceMode2D.Impulse);//direction is -1 or 1 based on key
+        float gravity = body.gravityScale;
+        body.gravityScale = 0;
+        yield return new WaitForSeconds(1f);
+        //^wait this amount of time before the dash distance is covered
+        //could be made a variable 
+        isDashing = false;
+        body.gravityScale = gravity;//once dash is done set bool to false and reset gravity 
+    }
 
-    private void Jump()
+//Jump Function
+    void Jump()
     {
         //dont forget animation
         SoundManager.instance.PlaySound(jumpSound); //play jump sound
-        anim.SetBool("Jump", true);
         
-
-        if (isGrounded() || isWallSliding && Input.GetKeyDown(KeyCode.Q))//check wall jump first
-                body.velocity = new Vector2(body.velocity.x, jumpPower);//physical jump      
+        //coyote time --> && hangCounter > 0
+        if ((isGrounded()) || isWallSliding && Input.GetButton("Jump"))//check wall jump first
+        {
+            anim.SetTrigger("takeOff");
+            body.velocity = new Vector2(body.velocity.x, jumpPower);//physical jump  
+        }          
         else
         {
             if (jumpCounter > 0) //If we have extra jumps then jump and decrease the jump counter
@@ -150,12 +207,13 @@ public class Movement : MonoBehaviour
                 body.velocity = new Vector2(body.velocity.x, jumpPower);
                 jumpCounter--; 
             }
-        } 
-        anim.SetBool("JumpFall", true);
-    }    
+        }    
+    }   
+
+//Items
 
     // far from efficent but its a way I found working
-    private void OnTriggerEnter2D(Collider2D coll)
+    void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.CompareTag("SpeedItem"))
         {
@@ -174,14 +232,15 @@ public class Movement : MonoBehaviour
         } 
     }      
     
-
-    private bool isGrounded()//casts a ray to see if the player is touching ground false or true 
+//Ground Check
+    bool isGrounded()//casts a ray to see if the player is touching ground false or true 
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
 
-    private bool onWall()//casts another ray to see if player is touching wall layer false or true 
+//Wall Check 
+    bool onWall()//casts another ray to see if player is touching wall layer false or true 
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
         return raycastHit.collider != null;

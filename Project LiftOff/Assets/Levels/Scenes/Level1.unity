@@ -19290,12 +19290,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1428640035}
     - target: {fileID: 9214214311729501120, guid: 409913b0d729d5e45b9afa62d073d617, type: 3}
+      propertyPath: hangTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9214214311729501120, guid: 409913b0d729d5e45b9afa62d073d617, type: 3}
       propertyPath: wallJumpX
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 9214214311729501120, guid: 409913b0d729d5e45b9afa62d073d617, type: 3}
       propertyPath: wallJumpY
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9214214311729501120, guid: 409913b0d729d5e45b9afa62d073d617, type: 3}
+      propertyPath: extraJumps
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9214214311729501120, guid: 409913b0d729d5e45b9afa62d073d617, type: 3}
       propertyPath: speedChange

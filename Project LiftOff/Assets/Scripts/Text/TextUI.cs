@@ -39,7 +39,7 @@ public class TextUI : MonoBehaviour
             //check if at end of text
             if(i == textObject.Text.Length - 1 && textObject.HasResponses) break;//stop the loop
 
-            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+            yield return new WaitUntil(() => Input.GetButtonDown("Interact"));
             //^remember to change the key code or button to the one they want 
         }
 

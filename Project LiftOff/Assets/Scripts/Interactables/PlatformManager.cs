@@ -7,7 +7,7 @@ public class PlatformManager : MonoBehaviour
     public static PlatformManager Instance = null;
 
     [SerializeField] private GameObject PlatformPrefab;
-    [SerializeField] private Vector3 platformInitialPosition;
+    [SerializeField] private Transform platformInitialPosition;
 
     //we only want one platform manager
     //just like we only want one sound manager 
@@ -21,7 +21,7 @@ public class PlatformManager : MonoBehaviour
 
     private void Start()
     {
-        Instantiate(PlatformPrefab, platformInitialPosition, PlatformPrefab.transform.rotation);    
+        Instantiate(PlatformPrefab, platformInitialPosition.position, PlatformPrefab.transform.rotation);
     }
 
     IEnumerator SpawnPlatform(Vector2 spawnPosition)

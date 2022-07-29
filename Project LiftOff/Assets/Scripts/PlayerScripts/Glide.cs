@@ -21,7 +21,7 @@ public class Glide : MonoBehaviour
     private void Update()
     {
         //new variable that is the equal to the Inmput button for jump
-        var glidingInput = Input.GetButton("Jump");
+        var glidingInput = Input.GetButton("Glide");
 
         //if space is pressed and the y velocity is less than
         //or equal to zero, we set the ridgidbody gravity to zero 
