@@ -98,6 +98,7 @@ public class Movement : MonoBehaviour
 //When on ground reset extra jumps and check coyote time
         if (isGrounded())
         {
+            anim.SetBool("Grounded", true);
             anim.SetBool("isJumping", false);
             jumpCounter = extraJumps;  
             hangCounter = hangTime;
@@ -123,13 +124,15 @@ public class Movement : MonoBehaviour
 
 //left Dash
     if (Input.GetAxis("DashLeft") == 1) {
+            anim.SetTrigger("Dash");
             transform.localScale = new Vector3(-1, 1, 1);
-            StartCoroutine(Dash(-1f)); 
+            StartCoroutine(Dash(-1f));             
         }
     
 
 //Right Dash
     if (Input.GetAxis("DashRight") == 1) { 
+            anim.SetTrigger("Dash");
             transform.localScale = Vector3.one;
             StartCoroutine(Dash(1f)); 
         }
@@ -204,10 +207,11 @@ public class Movement : MonoBehaviour
         {
             if (jumpCounter > 0) //If we have extra jumps then jump and decrease the jump counter
             {
+                anim.SetTrigger("DoubleJump");
                 body.velocity = new Vector2(body.velocity.x, jumpPower);
                 jumpCounter--; 
             }
-        }    
+        }   
     }   
 
 //Items
