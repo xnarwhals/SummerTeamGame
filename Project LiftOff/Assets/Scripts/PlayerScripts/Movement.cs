@@ -191,12 +191,9 @@ public class Movement : MonoBehaviour
 //Jump Function
     void Jump()
     {
-        //dont forget animation
-        SoundManager.instance.PlaySound(jumpSound); //play jump sound
-        
-        //coyote time --> && hangCounter > 0
         if ((isGrounded()) || isWallSliding && Input.GetButton("Jump"))//check wall jump first
         {
+            SoundManager.instance.PlaySound(jumpSound);
             anim.SetTrigger("takeOff");
             body.velocity = new Vector2(body.velocity.x, jumpPower);//physical jump  
         }          
