@@ -9,6 +9,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private TextUI textUI;
     public TextUI TextUI => textUI;
     public Interactable Interactable { get; set; }
+    public float HangTime { get => HangTime1; set => HangTime1 = value; }
+    public float HangTime1 { get => hangTime; set => hangTime = value; }
+    public float HangTime2 { get => hangTime; set => hangTime = value; }
 
     [Header("Movement Parameters")]
     [SerializeField] private float speed;
@@ -67,7 +70,7 @@ public class Movement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");//gets the A or D key press
 
     // (!isDashing) remeber this
-        if (horizontalInput != 0 && (!isDashing))
+        if (horizontalInput != 0 && !isDashing)
         {
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
             anim.SetBool("Running", true);
@@ -78,7 +81,7 @@ public class Movement : MonoBehaviour
             anim.SetBool("Running", false);
         }
         
-        body.gravityScale = 3f;
+        // body.gravityScale = 3f;
         //^careful with this because gravity will always be set to 3 even if I try 
         //to change the gravity in game it will be set back to 3
 
@@ -101,7 +104,7 @@ public class Movement : MonoBehaviour
             anim.SetBool("Grounded", true);
             anim.SetBool("isJumping", false);
             jumpCounter = extraJumps;  
-            hangCounter = hangTime;
+            hangCounter = HangTime1;
             //hang counter = 0.4f
         }
         else
@@ -121,21 +124,23 @@ public class Movement : MonoBehaviour
             body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);   
 
 //Dash Section
-
-//left Dash
-    if (Input.GetAxis("DashLeft") == 1) {
+ 
+    //left Dash
+        if (Input.GetAxis("DashLeft") == 1) {
             anim.SetTrigger("Dash");
             transform.localScale = new Vector3(-1, 1, 1);
             StartCoroutine(Dash(-1f));             
         }
     
 
-//Right Dash
-    if (Input.GetAxis("DashRight") == 1) { 
+    //Right Dash
+        if (Input.GetAxis("DashRight") == 1) { 
             anim.SetTrigger("Dash");
             transform.localScale = Vector3.one;
             StartCoroutine(Dash(1f)); 
         }
+    
+
     
 
           
