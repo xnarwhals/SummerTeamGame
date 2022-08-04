@@ -26,9 +26,6 @@ public class RevisedMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
 
-    [Header("Sounds")]
-    [SerializeField] private AudioClip jumpSound;
-
     [Header("WallJump")]
     [SerializeField] private float wallJumpTime; //avoid slugish gameplay (0.2f) by giving a certain amount of time to perform jump
     [SerializeField] private float wallSlideSpeed; //0.3f
@@ -68,24 +65,8 @@ public class RevisedMovement : MonoBehaviour
 	{
 		if (textUI.IsOpen) return; // stop player movement when active
 
-		/*if (horizontalInput != 0 && (!isDashing))
-		{
-			body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
-			anim.SetBool("Running", true);
-		}
-		else*/
-		{
-
-			//anim.SetBool("Running", false);
-		}
-
-		//body.gravityScale = 3f;
-		//^careful with this because gravity will always be set to 3 even if I try 
-		//to change the gravity in game it will be set back to 3
-
-
 		//Flip the player -x/x depending on key press (A or D)
-		/*if (horizontalInput > 0.01f)
+		if (horizontalInput > 0.01f)
 		{
 			transform.localScale = Vector3.one;
 			isFacingRight = true;
@@ -94,30 +75,23 @@ public class RevisedMovement : MonoBehaviour
 		{
 			transform.localScale = new Vector3(-1, 1, 1);
 			isFacingRight = false;
-		}  */
+		} 
 
 		//When on ground reset extra jumps and check coyote time
-		/* if (isGrounded())
+		if (isGrounded())
 		 {
 			 anim.SetBool("Grounded", true);
 			 anim.SetBool("isJumping", false);
 			 jumpCounter = extraJumps;  
-			 hangCounter = hangTime;
-			 //hang counter = 0.4f
 		 }
 		 else
 		 {
 			 anim.SetBool("isJumping", true);
-			 hangCounter -= Time.deltaTime;
-			 //if not on ground start reducing hang counter (0.4f)
-		 }*/
-
-
-
-
+			 anim.SetBool("Grounded", false);
+		 }
 
 		//Wall Jump and Slide Section
-		/*if (isFacingRight)
+		if (isFacingRight)
 		{   //check the player position (parameter 1) second parameter is casting the Raycast towards right wall
 			WallCheckHit = Physics2D.Raycast(transform.position, new Vector2(wallDistance, 0), wallDistance, wallLayer);
 			Debug.DrawRay(transform.position, new Vector2(-wallDistance, 0), Color.blue);
@@ -140,17 +114,17 @@ public class RevisedMovement : MonoBehaviour
 		
 		if (isWallSliding)
 		{
-			//slow down player logic
-			body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, wallSlideSpeed, float.MaxValue));
+			body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -wallSlideSpeed, float.MaxValue));
+			//slow player when wall sliding
 			//parameter 1 of New Vector 2 is the x position of player
 			//parameter 2 is clamp (y position) that takes players y position, speed of sliding down (min), and a max value
 		}        
 		
-//For Interactions With Npc Dialouge
-		if (Input.GetButton("Interact"))
-		{
-			Interactable?.Interact(this);
-		}*/
+		//For Interactions With Npc Dialouge
+		// if (Input.GetButton("Interact"))
+		// {
+		// 	Interactable?.Interact(this);
+		// }
 		
 		// are the dash triggers pressed now?
 		bool leftTriggerIsPressed = Input.GetAxis("DashLeft") == 1;
@@ -182,12 +156,25 @@ public class RevisedMovement : MonoBehaviour
 		if (dashRoutine == null)
 		{
 			// move based on horizontal input
+			anim.SetBool("Running", horizontalInput != 0);
 			body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 			
 			// jump if grounded
-			if (Input.GetButtonDown("Jump") && isGrounded())
-			{
+			if (isGrounded() && Input.GetButtonDown("Jump") || Input.GetButtonDown("Jump") && isWallSliding)
+			{           
+				FindObjectOfType<AudioManager>().Play("Jump");
+            	anim.SetTrigger("takeOff");
 				body.velocity = new Vector2(body.velocity.x, jumpPower);
+			}
+			else
+			{
+				if (Input.GetButtonDown("Jump") && jumpCounter > 0)
+				{
+					FindObjectOfType<AudioManager>().Play("Jump");
+					anim.SetTrigger("DoubleJump");
+                	body.velocity = new Vector2(body.velocity.x, jumpPower);
+                	jumpCounter--; 
+				}
 			}
 			
 			// cut vertical speed in half if they just released the jump button
@@ -210,12 +197,14 @@ public class RevisedMovement : MonoBehaviour
 				// dash if left trigger is down
 				if (leftTriggerDown)
 				{
+					transform.localScale = new Vector2(-1,1);
 					dashRoutine = StartCoroutine(Dash(-1f));
 				}
 
 				// dash if right trigger is down
 				if (rightTriggerDown)
 				{
+					transform.localScale = Vector3.one;
 					dashRoutine = StartCoroutine(Dash(1f));
 				}
 			}
@@ -228,12 +217,14 @@ public class RevisedMovement : MonoBehaviour
 	//Dash Function
 	IEnumerator Dash(float direction)
 	{
+		anim.SetBool("Dashing", true);
 		body.velocity = new Vector2(dashSpeed * direction, 0f);
 		
 		yield return new WaitForSeconds(dashDuration);
 
 		dashCooldownTimer = 0;
 		dashRoutine = null;
+		anim.SetBool("Dashing", false);
 	}
 
 	// far from efficent but its a way I found working
@@ -254,7 +245,12 @@ public class RevisedMovement : MonoBehaviour
 			Destroy(coll.gameObject);
 			jumpPower = jumpPowerItemValue;
 		} 
-	}      
+	}  
+
+	public void RunSound()
+    {
+        FindObjectOfType<AudioManager>().Play("Run");
+    }    
     
 	//Ground Check
 	bool isGrounded()//casts a ray to see if the player is touching ground false or true 

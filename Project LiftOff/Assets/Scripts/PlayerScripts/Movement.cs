@@ -9,9 +9,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private TextUI textUI;
     public TextUI TextUI => textUI;
     public Interactable Interactable { get; set; }
-    public float HangTime { get => HangTime1; set => HangTime1 = value; }
-    public float HangTime1 { get => hangTime; set => hangTime = value; }
-    public float HangTime2 { get => hangTime; set => hangTime = value; }
 
     [Header("Movement Parameters")]
     [SerializeField] private float speed;
@@ -31,6 +28,8 @@ public class Movement : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip dashSound;
+    [SerializeField] private AudioSource runSound;
 
     [Header("WallJump")]
     [SerializeField] private float wallJumpTime; //avoid slugish gameplay (0.2f) by giving a certain amount of time to perform jump
@@ -70,9 +69,10 @@ public class Movement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");//gets the A or D key press
 
     // (!isDashing) remeber this
-        if (horizontalInput != 0 && !isDashing)
+        if (horizontalInput != 0 && (!isDashing))
         {
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+            FindObjectOfType<AudioManager>().Play("Run");
             anim.SetBool("Running", true);
         }
         else
@@ -81,7 +81,7 @@ public class Movement : MonoBehaviour
             anim.SetBool("Running", false);
         }
         
-        // body.gravityScale = 3f;
+        body.gravityScale = 3f;
         //^careful with this because gravity will always be set to 3 even if I try 
         //to change the gravity in game it will be set back to 3
 
@@ -104,11 +104,12 @@ public class Movement : MonoBehaviour
             anim.SetBool("Grounded", true);
             anim.SetBool("isJumping", false);
             jumpCounter = extraJumps;  
-            hangCounter = HangTime1;
+            hangCounter = hangTime;
             //hang counter = 0.4f
         }
         else
         {
+            anim.SetBool("Grounded", false);
             anim.SetBool("isJumping", true);
             hangCounter -= Time.deltaTime;
             //if not on ground start reducing hang counter (0.4f)
@@ -124,23 +125,21 @@ public class Movement : MonoBehaviour
             body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);   
 
 //Dash Section
- 
-    //left Dash
-        if (Input.GetAxis("DashLeft") == 1) {
+
+//left Dash
+    if (Input.GetAxis("DashLeft") == 1) {
             anim.SetTrigger("Dash");
             transform.localScale = new Vector3(-1, 1, 1);
-            StartCoroutine(Dash(-1f));             
+            StartCoroutine(Dash(-1f)); 
         }
     
 
-    //Right Dash
-        if (Input.GetAxis("DashRight") == 1) { 
+//Right Dash
+    if (Input.GetAxis("DashRight") == 1) { 
             anim.SetTrigger("Dash");
             transform.localScale = Vector3.one;
             StartCoroutine(Dash(1f)); 
         }
-    
-
     
 
           
@@ -174,11 +173,11 @@ public class Movement : MonoBehaviour
             //parameter 2 is clamp (y position) that takes players y position, speed of sliding down (min), and a max value
         }        
         
-//For Interactions With Npc Dialouge
-        if (Input.GetButton("Interact"))
-        {
-            Interactable?.Interact(this);
-        }
+        // For Interactions With Npc Dialouge
+        // if (Input.GetButton("Interact"))
+        // {
+        //     Interactable?.Interact(this);
+        // }
     }
     
 //Dash Function
@@ -199,12 +198,9 @@ public class Movement : MonoBehaviour
 //Jump Function
     void Jump()
     {
-        //dont forget animation
-        SoundManager.instance.PlaySound(jumpSound); //play jump sound
-        
-        //coyote time --> && hangCounter > 0
         if ((isGrounded()) || isWallSliding && Input.GetButton("Jump"))//check wall jump first
         {
+            FindObjectOfType<AudioManager>().Play("Jump");
             anim.SetTrigger("takeOff");
             body.velocity = new Vector2(body.velocity.x, jumpPower);//physical jump  
         }          
@@ -212,11 +208,12 @@ public class Movement : MonoBehaviour
         {
             if (jumpCounter > 0) //If we have extra jumps then jump and decrease the jump counter
             {
+                FindObjectOfType<AudioManager>().Play("Jump");
                 anim.SetTrigger("DoubleJump");
                 body.velocity = new Vector2(body.velocity.x, jumpPower);
                 jumpCounter--; 
             }
-        }   
+        }    
     }   
 
 //Items
@@ -239,7 +236,12 @@ public class Movement : MonoBehaviour
             Destroy(coll.gameObject);
             jumpPower = jumpPowerItemValue;
         } 
-    }      
+    }  
+
+    public void RunSound()
+    {
+        FindObjectOfType<AudioManager>().Play("Run");
+    }    
     
 //Ground Check
     bool isGrounded()//casts a ray to see if the player is touching ground false or true 

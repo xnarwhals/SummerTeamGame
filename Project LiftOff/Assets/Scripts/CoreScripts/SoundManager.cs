@@ -27,4 +27,5 @@ public class SoundManager : MonoBehaviour
     {
         source.PlayOneShot(_sound); //playing the physical sound when called
     }
-}   
+}
+
