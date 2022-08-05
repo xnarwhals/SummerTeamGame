@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/Scenes/Selva1.unity
     guid: 35a9699a518ba70499dd8397c8f7fe4a
+  - enabled: 1
+    path: Assets/Levels/Scenes/XavierWorkSpace.unity
+    guid: 218eb7a32b7ab854eb67be22cd25f405
   m_configObjects: {}

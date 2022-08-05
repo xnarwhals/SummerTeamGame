@@ -114,6 +114,7 @@ public class RevisedMovement : MonoBehaviour
 		
 		if (isWallSliding)
 		{
+			FindObjectOfType<AudioManager>().Play("WallSliding");
 			body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -wallSlideSpeed, float.MaxValue));
 			//slow player when wall sliding
 			//parameter 1 of New Vector 2 is the x position of player
@@ -217,6 +218,7 @@ public class RevisedMovement : MonoBehaviour
 	//Dash Function
 	IEnumerator Dash(float direction)
 	{
+		FindObjectOfType<AudioManager>().Play("Dash");
 		anim.SetBool("Dashing", true);
 		body.velocity = new Vector2(dashSpeed * direction, 0f);
 		
@@ -251,7 +253,7 @@ public class RevisedMovement : MonoBehaviour
     {
         FindObjectOfType<AudioManager>().Play("Run");
     }    
-    
+
 	//Ground Check
 	bool isGrounded()//casts a ray to see if the player is touching ground false or true 
 	{

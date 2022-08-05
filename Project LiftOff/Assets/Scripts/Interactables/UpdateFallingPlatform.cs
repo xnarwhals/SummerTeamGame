@@ -4,30 +4,60 @@ using UnityEngine;
 
 public class UpdateFallingPlatform : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float fallDelay;
-    [SerializeField] private float respawnTime;
-    [SerializeField] private GameObject RespawnPoint;
+    private Rigidbody2D rb;
 
+    private float timeBeforeFall = 1.2f;
+ 
+    private float timeBeforeRespawn = 2f;
+ 
     private bool isFalling = false;
-    private void OnCollisionEnter2D(Collision2D collision)
+ 
+    private Vector2 initialposition;
+ 
+
+    private void Awake()
     {
-        if(isFalling = true)
-            return;
-        else if(collision.gameObject.CompareTag("Player"))
+        rb = GetComponent<Rigidbody2D>();
+    }
+    private void Start()
+    {
+         initialposition = transform.position;
+    }
+ 
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(Fall());
+            Invoke("Fall", timeBeforeFall);
         }
     }
-
-    private IEnumerator Fall()
+ 
+    void Fall()
     {
+        rb.isKinematic = false;
         isFalling = true;
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        yield return new WaitForSeconds(fallDelay);
-        yield return new WaitForSeconds(respawnTime);
-        transform.position = new Vector3(RespawnPoint.transform.position.x, RespawnPoint.transform.position.y, 0);
-        rb.bodyType = RigidbodyType2D.Kinematic;
+    }
+   
+    void respawn()
+    {
+        StartCoroutine(respawnF());
+    }
+ 
+    IEnumerator respawnF()
+    {
+        yield return new WaitForSeconds(timeBeforeRespawn);
         isFalling = false;
+        rb.isKinematic = true;
+        transform.position = initialposition;
+        rb.velocity = Vector2.zero;
+    }
+ 
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.tag == "Enemy")
+        {
+            respawn();
+        }
     }
 }
+

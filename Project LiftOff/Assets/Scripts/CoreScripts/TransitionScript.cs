@@ -10,7 +10,7 @@ public class TransitionScript : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(DelayLoadLevel(5));
+        StartCoroutine(DelayLoadLevel(3));
     }
 
     IEnumerator DelayLoadLevel(float seconds)
@@ -22,7 +22,7 @@ public class TransitionScript : MonoBehaviour
             yield return new WaitForSeconds(1);
         } while (--secondsLeft > 0);
 
-        SceneManager.LoadScene("Selva1");
+        SceneManager.LoadScene(4);
     }
 
     void OnGUI(){

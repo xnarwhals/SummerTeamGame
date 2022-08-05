@@ -10,6 +10,7 @@ public class BouncePad : MonoBehaviour
         {
             if(collision.gameObject.CompareTag("Player"))
             {
+                FindObjectOfType<AudioManager>().Play("BounceFromObject");
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * LaunchForce, ForceMode2D.Impulse);
             }                                
         }

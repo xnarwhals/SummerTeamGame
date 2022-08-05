@@ -30,6 +30,7 @@ public class Glide : MonoBehaviour
         if (glidingInput && _ridgidbody.velocity.y <= 0)
         {
             _ridgidbody.gravityScale = 0;
+            FindObjectOfType<AudioManager>().Play("Glide");
             _ridgidbody.velocity = new Vector2(_ridgidbody.velocity.x, -glidingGravity);
         }
         else    //if not gliding the gravity of the player is normal 
