@@ -3655,7 +3655,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Run
-    clip: {fileID: 8300000, guid: 2de8329adc6f9b944a5ab0875fb59924, type: 3}
+    clip: {fileID: 8300000, guid: 346637c41fe32e840853bcc0ee186598, type: 3}
     volume: 1
     pitch: 2.42
     loop: 0
@@ -5712,6 +5712,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BouncePad
       objectReference: {fileID: 0}
+    - target: {fileID: 4591836446366463466, guid: 03752e16b8b80274b93c2eb3faec4464, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4591836446366463479, guid: 03752e16b8b80274b93c2eb3faec4464, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -6140,6 +6144,10 @@ PrefabInstance:
     - target: {fileID: 4591836446366463466, guid: 03752e16b8b80274b93c2eb3faec4464, type: 3}
       propertyPath: m_Name
       value: BouncePad
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591836446366463466, guid: 03752e16b8b80274b93c2eb3faec4464, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4591836446366463479, guid: 03752e16b8b80274b93c2eb3faec4464, type: 3}
       propertyPath: m_RootOrder
