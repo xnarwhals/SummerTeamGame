@@ -22,7 +22,7 @@ public class TransitionScript : MonoBehaviour
             yield return new WaitForSeconds(1);
         } while (--secondsLeft > 0);
 
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(2);
     }
 
     void OnGUI(){

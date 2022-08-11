@@ -10,6 +10,7 @@ TagManager:
   - SpeedItem
   - ExtraJumpItem
   - JumpForceItem
+  - FallingPlatform
   layers:
   - Default
   - TransparentFX

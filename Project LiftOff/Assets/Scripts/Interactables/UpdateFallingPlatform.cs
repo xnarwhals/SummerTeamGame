@@ -6,9 +6,9 @@ public class UpdateFallingPlatform : MonoBehaviour
 {
     private Rigidbody2D rb;
 
-    private float timeBeforeFall = 1.2f;
+    public float timeBeforeFall = 1.2f;
  
-    private float timeBeforeRespawn = 2f;
+    public float timeBeforeRespawn = 2f;
  
     private bool isFalling = false;
  
@@ -30,6 +30,7 @@ public class UpdateFallingPlatform : MonoBehaviour
         {
             Invoke("Fall", timeBeforeFall);
         }
+        // respawn();
     }
  
     void Fall()
