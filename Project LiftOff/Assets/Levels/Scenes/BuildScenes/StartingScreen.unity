@@ -226,7 +226,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6415094, g: 0.31107154, b: 0.47319275, a: 0}
+  m_BackGroundColor: {r: 0.10423638, g: 0.4528302, b: 0.15562864, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -586,8 +586,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: 0, y: 68.81181}
+  m_SizeDelta: {x: 200, y: 137.6276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &757299981
 MonoBehaviour:
@@ -1046,7 +1046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.754717, g: 0.15236738, b: 0.27636686, a: 0.392}
+  m_Color: {r: 0.21885945, g: 0.8018868, b: 0.17702027, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1102,31 +1102,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: Jump
-    clip: {fileID: 8300000, guid: 6ddeeac9d65101444b6075a248f103d7, type: 3}
+    clip: {fileID: 8300000, guid: 9a8a773cf6cb05044b2d334e8369f78a, type: 3}
     volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Dash
-    clip: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+    clip: {fileID: 8300000, guid: 9a8a773cf6cb05044b2d334e8369f78a, type: 3}
     volume: 0.75
     pitch: 1.7
     loop: 0
     source: {fileID: 0}
   - name: Run
-    clip: {fileID: 8300000, guid: 2de8329adc6f9b944a5ab0875fb59924, type: 3}
+    clip: {fileID: 8300000, guid: 141375c349b10a74da8e29563c3f643c, type: 3}
     volume: 1
     pitch: 2.42
     loop: 0
     source: {fileID: 0}
   - name: Glide
-    clip: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
+    clip: {fileID: 8300000, guid: 4f59f214048853340aec7ce494e503e0, type: 3}
     volume: 0.4
     pitch: 0.98
     loop: 0
     source: {fileID: 0}
   - name: MenuTheme
-    clip: {fileID: 8300000, guid: 475f4837af487ce4a9e68bb227455e4c, type: 3}
+    clip: {fileID: 8300000, guid: dd206d02798e1ce4aaa3ad3e6205ea3d, type: 3}
     volume: 0.03
     pitch: 1
     loop: 1
