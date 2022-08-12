@@ -27,6 +27,6 @@ EditorBuildSettings:
     path: Assets/Levels/Scenes/XavierWorkSpace.unity
     guid: 218eb7a32b7ab854eb67be22cd25f405
   - enabled: 1
-    path: Assets/Levels/Scenes/BuildScenes/Level_Mawuko.unity
+    path: Assets/Levels/Scenes/BuildScenes/Level_Mawuko Fixed Camera.unity
     guid: 25e9f912e88f7e642b5b350f1fa9749c
   m_configObjects: {}
