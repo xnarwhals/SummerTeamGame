@@ -8,25 +8,19 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Levels/Scenes/Level1.unity
-    guid: b216d90003b696b48968101f2a51280a
   - enabled: 1
     path: Assets/Levels/Scenes/BuildScenes/StartingScreen.unity
     guid: c5defd270cfb008449208667770d62a9
   - enabled: 1
     path: Assets/Levels/Scenes/BuildScenes/VillageOverview.unity
     guid: a5ac39e78a976614482b4671045ee0c8
-  - enabled: 0
-    path: Assets/Levels/Scenes/Prototype Level.unity
-    guid: 0e3620f7212e595489a5b87eb1f2d110
-  - enabled: 0
-    path: Assets/Levels/Scenes/Selva1.unity
-    guid: 35a9699a518ba70499dd8397c8f7fe4a
-  - enabled: 0
-    path: Assets/Levels/Scenes/XavierWorkSpace.unity
-    guid: 218eb7a32b7ab854eb67be22cd25f405
   - enabled: 1
-    path: Assets/Levels/Scenes/BuildScenes/Level_Mawuko Fixed Camera.unity
-    guid: 25e9f912e88f7e642b5b350f1fa9749c
+    path: Assets/Levels/Scenes/BuildScenes/Level_Mawuko Edited.unity
+    guid: 89a0b0457c40d2d4eb9ae697a168ed27
+  - enabled: 1
+    path: Assets/Levels/Scenes/BuildScenes/Level_Mawuko2.unity
+    guid: a359513d0841e854183d89d885d19c6b
+  - enabled: 1
+    path: Assets/Levels/Scenes/BuildScenes/Ending Screen.unity
+    guid: 4a425083a38703a44bd92d3992b31ab4
   m_configObjects: {}

@@ -1,4 +1,4 @@
 public interface Interactable
 {
-    void Interact(Movement player);
+    void Interact(RevisedMovement player);
 }

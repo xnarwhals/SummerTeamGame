@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: TextObjects
   m_EditorClassIdentifier: 
   text:
-  - Greetings Player!
-  - I Beg of You .  .  .  Deliver This Medicine to My Sick Grandma
-  responses:
-  - responseText: Yes
-    textObject: {fileID: 11400000, guid: e9392e3ada6ce21439aaa88361947077, type: 2}
-  - responseText: No
-    textObject: {fileID: 11400000, guid: 417ac200997c3534db0aab0ab8e0a384, type: 2}
+  - 'NPC: Greetings, Child!'
+  - 'NPC: I never thought I would get this in time.'
+  - 'Player: You''re welcome! Just doing what I can for everyone here.'
+  - 'NPC: How kind of you. Where are you heading next?'
+  - 'Player: Next part of deliveries are for the birdfolk of the canopy.'
+  - 'Player: It will be my first time up there!'
+  - 'NPC: Quite the journey ahead of you, then! Best of luck!'
+  - 'Player: Thank you so much!'
+  responses: []

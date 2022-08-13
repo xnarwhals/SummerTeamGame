@@ -10,7 +10,7 @@ public class TransitionScript : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(DelayLoadLevel(3));
+        StartCoroutine(DelayLoadLevel(16));
     }
 
     IEnumerator DelayLoadLevel(float seconds)

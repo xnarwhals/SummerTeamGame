@@ -122,10 +122,10 @@ public class RevisedMovement : MonoBehaviour
 		}        
 		
 		//For Interactions With Npc Dialouge
-		// if (Input.GetButton("Interact"))
-		// {
-		// 	Interactable?.Interact(this);
-		// }
+		if (Input.GetButton("Interact"))
+		{
+			Interactable?.Interact(this);
+		}
 		
 		// are the dash triggers pressed now?
 		bool leftTriggerIsPressed = Input.GetAxis("DashLeft") == 1;

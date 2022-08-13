@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TextUI : MonoBehaviour
 {
     [SerializeField] private GameObject textBox;
     [SerializeField] private TMP_Text textLable;
+    [SerializeField] private int NextSceneIndex;
     
     public bool IsOpen { get; private set; }
 
@@ -41,6 +43,7 @@ public class TextUI : MonoBehaviour
 
             yield return new WaitUntil(() => Input.GetButtonDown("Interact"));
             //^remember to change the key code or button to the one they want 
+
         }
 
         if (textObject.HasResponses)
@@ -50,6 +53,7 @@ public class TextUI : MonoBehaviour
         else//if theres a response avliable show it else close the textBox
         {
             CloseText();//once the for loop is finished do close text    
+            SceneManager.LoadScene(NextSceneIndex);//it works...
         }
 
         
