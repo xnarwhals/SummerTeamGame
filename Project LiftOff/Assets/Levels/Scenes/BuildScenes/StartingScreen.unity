@@ -1144,7 +1144,7 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: BounceFromObject
-    clip: {fileID: 8300000, guid: a0010a1a0c474473b81729eb770c485f, type: 3}
+    clip: {fileID: 8300000, guid: e576c051ca715574987fa3c458480650, type: 3}
     volume: 0.4
     pitch: 0.46
     loop: 0
