@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Levels/Scenes/BuildScenes/Level_Mawuko Edited.unity
     guid: 89a0b0457c40d2d4eb9ae697a168ed27
   - enabled: 1
-    path: Assets/Levels/Scenes/BuildScenes/Level_Mawuko2.unity
+    path: Assets/Levels/Scenes/BuildScenes/Level_Xavier.unity
     guid: a359513d0841e854183d89d885d19c6b
   - enabled: 1
     path: Assets/Levels/Scenes/BuildScenes/Ending Screen.unity

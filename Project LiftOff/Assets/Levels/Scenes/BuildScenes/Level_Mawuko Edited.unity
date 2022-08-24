@@ -686,11 +686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414102489903570275, guid: d334928921b92c64c80cd66d562525a0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -661
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7414102489903570275, guid: d334928921b92c64c80cd66d562525a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -110
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 7414102489947618881, guid: d334928921b92c64c80cd66d562525a0, type: 3}
       propertyPath: typeSpeed
@@ -698,7 +698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414102489947618886, guid: d334928921b92c64c80cd66d562525a0, type: 3}
       propertyPath: NextSceneIndex
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7414102489947618887, guid: d334928921b92c64c80cd66d562525a0, type: 3}
       propertyPath: m_Pivot.x
@@ -3250,7 +3250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1072085328
 MonoBehaviour:
   m_ObjectHideFlags: 0
